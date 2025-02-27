@@ -1,0 +1,28 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+@keyframes slide {
+  0% {
+    transform: translateX(-80%);
+  }
+  25% {
+    transform: translateX(-160%);
+  }
+  50% {
+    transform: translateX(-240%);
+  }
+  75% {
+    transform: translateX(-300%);
+  }
+  100% {
+    transform: translateX(-80%);
+  }
+}
+
+.image-slide {
+  animation: slide 12s linear infinite;
+  display: flex;
+}
