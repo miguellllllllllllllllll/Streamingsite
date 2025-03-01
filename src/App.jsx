@@ -1,24 +1,24 @@
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
-import MovieCast from "./Moviecast";
 import Navbar from "./Navbar";
 import Searchbar from "./Searchbar";
 import Sneakpeek from "./Sneakpeek";
+import Homepage from "./Pages/Homepage";
+import MovieDetail from "./Pages/MovieDetail"; // NEU: Import der Detailseite
 
 function App() {
   return (
-    <>
+    <BrowserRouter>
       <Navbar />
-      <Searchbar />
-      <MovieCast />
-      <iframe
-        src="https://vidsrc.me/embed/movie?imdb=tt0345950"
-        style={{ width: "400px", height: "200px" }} // <-- Doppelte geschweifte Klammern!
-        frameBorder="0" // <-- camelCase für JSX
-        referrerPolicy="origin" // <-- camelCase für JSX
-        allowFullScreen // <-- kein `=`
-      ></iframe>
-      <Sneakpeek />
-    </>
+      <Routes>
+        {/* Automatische Weiterleitung von "/" nach "/homepage" */}
+        <Route path="/" element={<Navigate to="/homepage" replace />} />
+        <Route path="/homepage" element={<Homepage />} />
+        <Route path="/movie/:id" element={<MovieDetail />} /> {/* NEUE ROUTE */}
+      </Routes>
+    </BrowserRouter>
   );
 }
 

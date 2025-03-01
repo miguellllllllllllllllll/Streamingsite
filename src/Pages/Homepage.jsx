@@ -1,16 +1,33 @@
-import "./App.css";
-import Navbar from "./Navbar";
-import Searchbar from "./Searchbar";
-import Sneakpeek from "./Sneakpeek";
+import { useState } from "react"; // <-- useState importieren!
+import "../App.css";
+import MovieCast from "../Moviecast";
+import Navbar from "../Navbar";
+import Searchbar from "../Searchbar";
+import Sneakpeek from "../Sneakpeek";
 
-function App() {
+function Homepage() {
+  const [movieId, setMovieId] = useState(null);
+
   return (
     <>
-      <Navbar />
-      <Searchbar />
+      <div>
+        <Searchbar onSearch={setMovieId} />
+        {movieId ? (
+          <MovieCast movieId={movieId} />
+        ) : (
+          <p>Bitte einen Film suchen...</p>
+        )}
+      </div>
+      <iframe
+        src="https://vidsrc.me/embed/movie?imdb=tt0345950"
+        style={{ width: "400px", height: "200px" }}
+        frameBorder="0"
+        referrerPolicy="origin"
+        allowFullScreen
+      ></iframe>
       <Sneakpeek />
     </>
   );
 }
 
-export default App;
+export default Homepage;
