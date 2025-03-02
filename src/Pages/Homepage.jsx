@@ -1,32 +1,44 @@
-import { useState } from "react"; // <-- useState importieren!
+import { useState } from "react";
 import "../App.css";
 import MovieCast from "../Moviecast";
-import Navbar from "../Navbar";
 import Searchbar from "../Searchbar";
 import Sneakpeek from "../Sneakpeek";
+import MovieDetail from "./MovieDetail";
+import SeriesDetail from "./SeriesDetail";
 
 function Homepage() {
-  const [movieId, setMovieId] = useState(null);
+  const [searchResult, setSearchResult] = useState(null);
+  const [type, setType] = useState(null); // "movie" oder "series"
+
+  const handleSearch = (result) => {
+    if (result?.media_type === "movie") {
+      setSearchResult(result.id);
+      setType("movie");
+    } else if (result?.media_type === "tv") {
+      setSearchResult(result.id);
+      setType("series");
+    }
+  };
 
   return (
-    <>
-      <div>
-        <Searchbar onSearch={setMovieId} />
-        {movieId ? (
-          <MovieCast movieId={movieId} />
+    <div className="container">
+      {/* Suchleiste */}
+      <Searchbar onSearch={handleSearch} />
+
+      {/* Falls ein Film oder eine Serie gefunden wurde */}
+      {searchResult ? (
+        type === "movie" ? (
+          <MovieDetail id={searchResult} />
         ) : (
-          <p>Bitte einen Film suchen...</p>
-        )}
-      </div>
-      <iframe
-        src="https://vidsrc.me/embed/movie?imdb=tt0345950"
-        style={{ width: "400px", height: "200px" }}
-        frameBorder="0"
-        referrerPolicy="origin"
-        allowFullScreen
-      ></iframe>
+          <SeriesDetail id={searchResult} />
+        )
+      ) : (
+        <p>Bitte einen Film oder eine Serie suchen...</p>
+      )}
+
+      {/* Sneak Peek (Vorschläge) */}
       <Sneakpeek />
-    </>
+    </div>
   );
 }
 

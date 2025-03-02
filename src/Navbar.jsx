@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Link } from "react-router-dom"; // ✅ Link importieren
+import { CiStreamOn } from "react-icons/ci";
+import { Link } from "react-router-dom"; // WICHTIG: Link importieren!
 
 function Navbar() {
   const [isActive, setIsActive] = useState(false);
@@ -12,9 +13,7 @@ function Navbar() {
     <nav className="navbar" role="navigation" aria-label="main navigation">
       <div className="navbar-brand">
         <Link className="navbar-item" to="/homepage">
-          {" "}
-          {/* ✅ Hier Link statt <a> */}
-          Streamingsite
+          <CiStreamOn /> Streamingsite
         </Link>
 
         <a
@@ -31,43 +30,20 @@ function Navbar() {
         </a>
       </div>
 
-      <div
-        id="navbarBasicExample"
-        className={`navbar-menu ${isActive ? "is-active" : ""}`}
-      >
+      <div className={`navbar-menu ${isActive ? "is-active" : ""}`}>
         <div className="navbar-start">
-          <Link className="navbar-item" to="/homepage">
-            {" "}
-            {/* ✅ Richtige Navigation */}
-            Home
+          <Link className="navbar-item" to="/category">
+            Categories
           </Link>
-
-          <Link className="navbar-item" to="/documentation">
-            Documentation
-          </Link>
-
-          <div className="navbar-item has-dropdown is-hoverable">
-            <a className="navbar-link">More</a>
-
-            <div className="navbar-dropdown">
-              <Link className="navbar-item" to="/movies">
-                Movies
-              </Link>
-              <Link className="navbar-item is-selected" to="/series">
-                Series
-              </Link>
-              <Link className="navbar-item" to="/contact">
-                Contact
-              </Link>
-              <hr className="navbar-divider" />
-              <Link className="navbar-item" to="/report">
-                Report an issue
-              </Link>
-            </div>
-          </div>
+          <Link className="navbar-item" to="/movie/550">
+            Beispiel-Film
+          </Link>{" "}
+          {/* Beispiel-Film (Fight Club) */}
+          <Link className="navbar-item" to="/report">
+            Report an issue
+          </Link>{" "}
+          {/* Beispiel-Serie (Game of Thrones) */}
         </div>
-
-        <div className="navbar-end"></div>
       </div>
     </nav>
   );
