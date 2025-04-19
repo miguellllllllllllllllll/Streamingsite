@@ -12,7 +12,7 @@ import Navbar from "./Navbar";
 import Searchbar from "./Searchbar";
 import Sneakpeek from "./Sneakpeek";
 import Homepage from "./Pages/Homepage";
-import MovieDetail from "./Pages/MovieDetail";
+import MovieDetail from "./Pages/Moviedetail";
 import SeriesDetail from "./Pages/Seriesdetail";
 import ReportForm from "./Pages/report";
 import CategoriesPage from "./Pages/Categoriespage";
