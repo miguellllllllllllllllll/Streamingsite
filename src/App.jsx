@@ -14,7 +14,7 @@ import Sneakpeek from "./Sneakpeek";
 import Homepage from "./Pages/Homepage";
 import MovieDetail from "./Pages/Moviedetail";
 import SeriesDetail from "./Pages/Seriesdetail";
-import ReportForm from "./Pages/report";
+import ReportForm from "./Pages/Report";
 import CategoriesPage from "./Pages/Categoriespage";
 import GenrePage from "./Pages/GenrePage";
 import LoginPage from "./Pages/Loginpage";
