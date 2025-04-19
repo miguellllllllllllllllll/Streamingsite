@@ -11,13 +11,13 @@ import "./App.css";
 import Navbar from "./Navbar";
 import Searchbar from "./Searchbar";
 import Sneakpeek from "./Sneakpeek";
-import Homepage from "/src/Pages/Homepage";
-import MovieDetail from "/src/Pages/MovieDetail";
-import SeriesDetail from "/src/Pages/Seriesdetail";
-import ReportForm from "/src/Pages/report";
-import CategoriesPage from "/src/Pages/Categoriespage";
-import GenrePage from "/src/Pages/GenrePage";
-import LoginPage from "/src/Pages/Loginpage";
+import Homepage from "./Pages/Homepage";
+import MovieDetail from "./Pages/MovieDetail";
+import SeriesDetail from "./Pages/Seriesdetail";
+import ReportForm from "./Pages/report";
+import CategoriesPage from "./Pages/Categoriespage";
+import GenrePage from "./Pages/GenrePage";
+import LoginPage from "./Pages/Loginpage";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(
