@@ -3,8 +3,8 @@ import "../App.css";
 import MovieCast from "../Moviecast";
 import Searchbar from "../Searchbar";
 import Sneakpeek from "../Sneakpeek";
-import MovieDetail from "./MovieDetail";
-import SeriesDetail from "./SeriesDetail";
+import MovieDetail from "./Moviedetail";
+import SeriesDetail from "./Seriesdetail";
 
 function Homepage() {
   const [searchResult, setSearchResult] = useState(null);
