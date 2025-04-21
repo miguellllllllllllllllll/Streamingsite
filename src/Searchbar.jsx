@@ -1,32 +1,31 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom"; // NEU
+import { useNavigate } from "react-router-dom";
 
 function Searchbar() {
   const [query, setQuery] = useState("");
   const [movies, setMovies] = useState([]);
   const [series, setSeries] = useState([]);
   const [error, setError] = useState(null);
-  const navigate = useNavigate(); // NEU: Navigation-Funktion
+  const navigate = useNavigate();
 
-  const handleSearch = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     if (!query) return;
 
     try {
-      // Suche nach Filmen
+      // Filme suchen
       const movieUrl = `https://api.themoviedb.org/3/search/movie?query=${query}&api_key=c30d06a2c3872ffd55d0b2eded65b7e1`;
       const movieResponse = await fetch(movieUrl);
       if (!movieResponse.ok)
         throw new Error("Fehler beim Abrufen der Filmdaten.");
-
       const movieData = await movieResponse.json();
       setMovies(movieData.results || []);
 
-      // Suche nach Serien
+      // Serien suchen
       const seriesUrl = `https://api.themoviedb.org/3/search/tv?query=${query}&api_key=c30d06a2c3872ffd55d0b2eded65b7e1`;
       const seriesResponse = await fetch(seriesUrl);
       if (!seriesResponse.ok)
         throw new Error("Fehler beim Abrufen der Seriendaten.");
-
       const seriesData = await seriesResponse.json();
       setSeries(seriesData.results || []);
     } catch (error) {
@@ -42,30 +41,30 @@ function Searchbar() {
       <div className="container">
         <div className="columns is-centered">
           <div className="column is-half">
-            <div className="field has-addons">
-              <div className="control is-expanded">
-                <input
-                  className="input is-rounded"
-                  type="text"
-                  placeholder="Search..."
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                />
+            <form onSubmit={handleSubmit}>
+              <div className="field has-addons">
+                <div className="control is-expanded">
+                  <input
+                    className="input is-rounded"
+                    type="text"
+                    placeholder="Search..."
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                  />
+                </div>
+                <div className="control">
+                  <button className="button is-primary" type="submit">
+                    Submit
+                  </button>
+                </div>
               </div>
-              <div className="control">
-                <button className="button is-primary" onClick={handleSearch}>
-                  Submit
-                </button>
-              </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>
 
-      {/* Fehler anzeigen */}
       {error && <p style={{ color: "red" }}>{error}</p>}
 
-      {/* Suchergebnisse für Filme */}
       {movies.length > 0 && (
         <div className="container">
           <h2 className="subtitle">Film-Suchergebnisse:</h2>
@@ -75,7 +74,7 @@ function Searchbar() {
                 <div
                   className="card"
                   style={{ cursor: "pointer" }}
-                  onClick={() => navigate(`/movie/${movie.id}`)} // LEITET WEITER
+                  onClick={() => navigate(`/movie/${movie.id}`)}
                 >
                   <div className="card-image">
                     <figure className="image is-4by5">
@@ -102,7 +101,6 @@ function Searchbar() {
         </div>
       )}
 
-      {/* Suchergebnisse für Serien */}
       {series.length > 0 && (
         <div className="container">
           <h2 className="subtitle">Serien-Suchergebnisse:</h2>
@@ -114,7 +112,7 @@ function Searchbar() {
                   style={{ cursor: "pointer" }}
                   onClick={() =>
                     navigate(`/series/${tv.id}/season/1/episode/1`)
-                  } // LEITET WEITER
+                  }
                 >
                   <div className="card-image">
                     <figure className="image is-4by5">
