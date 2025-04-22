@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 function MovieDetail() {
-  const { id } = useParams(); // Holt die Film-ID aus der URL
+  const { id } = useParams();
   const [movie, setMovie] = useState(null);
+  const [imdbId, setImdbId] = useState(null);
   const [error, setError] = useState(null);
+  const [selectedProvider, setSelectedProvider] = useState("vidsrc.me");
 
   useEffect(() => {
     const fetchMovie = async () => {
@@ -12,9 +14,13 @@ function MovieDetail() {
         const url = `https://api.themoviedb.org/3/movie/${id}?api_key=c30d06a2c3872ffd55d0b2eded65b7e1`;
         const response = await fetch(url);
         if (!response.ok) throw new Error("Fehler beim Abrufen der Filmdaten.");
-
         const data = await response.json();
         setMovie(data);
+
+        const externalUrl = `https://api.themoviedb.org/3/movie/${id}/external_ids?api_key=c30d06a2c3872ffd55d0b2eded65b7e1`;
+        const externalResponse = await fetch(externalUrl);
+        const externalData = await externalResponse.json();
+        setImdbId(externalData.imdb_id);
       } catch (error) {
         setError(error.message);
       }
@@ -23,12 +29,47 @@ function MovieDetail() {
     fetchMovie();
   }, [id]);
 
+  const renderIframe = () => {
+    switch (selectedProvider) {
+      case "vidsrc.me":
+        return (
+          <iframe
+            src={`https://vidsrc.me/embed/movie?tmdb=${id}`}
+            style={{ width: "100%", maxWidth: "900px", height: "400px" }}
+            frameBorder="0"
+            allowFullScreen
+          ></iframe>
+        );
+      case "vidsrc.cc":
+        return imdbId ? (
+          <iframe
+            src={`https://vidsrc.cc/v2/embed/movie/${imdbId}`}
+            style={{ width: "100%", maxWidth: "900px", height: "400px" }}
+            frameBorder="0"
+            allowFullScreen
+          ></iframe>
+        ) : (
+          <p>IMDB-ID wird benötigt.</p>
+        );
+      case "vidlink.pro":
+        return (
+          <iframe
+            src={`https://vidlink.pro/movie/${id}`}
+            style={{ width: "100%", maxWidth: "900px", height: "400px" }}
+            frameBorder="0"
+            allowFullScreen
+          ></iframe>
+        );
+      default:
+        return <p>Streaming-Anbieter nicht gefunden.</p>;
+    }
+  };
+
   if (error) return <p className="notification is-danger">{error}</p>;
   if (!movie) return <p className="notification is-info">Lädt...</p>;
 
   return (
     <div className="container mt-5">
-      {/* 🎬 Banner mit Film-Hintergrund */}
       {movie.backdrop_path && (
         <div
           className="hero is-medium"
@@ -45,9 +86,7 @@ function MovieDetail() {
         </div>
       )}
 
-      {/* 🎥 Film-Details */}
       <div className="columns mt-5">
-        {/* 🎭 Poster */}
         <div className="column is-one-third">
           <div className="card">
             <div className="card-image">
@@ -65,7 +104,6 @@ function MovieDetail() {
           </div>
         </div>
 
-        {/* 🎞️ Infos */}
         <div className="column">
           <div className="content">
             <h2 className="title is-4">Zusammenfassung</h2>
@@ -79,19 +117,38 @@ function MovieDetail() {
             </p>
           </div>
 
-          {/* 📺 Film-Trailer */}
           <div className="box has-text-centered">
-            <iframe
-              src={`https://vidsrc.me/embed/movie?tmdb=${id}`}
-              style={{
-                width: "100%",
-                maxWidth: "900px",
-                height: "400px",
-              }}
-              frameBorder="0"
-              referrerPolicy="origin"
-              allowFullScreen
-            ></iframe>
+            <h3 className="title is-5">Stream wählen</h3>
+
+            <div className="buttons is-centered mb-4">
+              <button
+                className={`button ${
+                  selectedProvider === "vidsrc.me" ? "is-primary" : ""
+                }`}
+                onClick={() => setSelectedProvider("vidsrc.me")}
+              >
+                vidsrc.me
+              </button>
+              <button
+                className={`button ${
+                  selectedProvider === "vidsrc.cc" ? "is-primary" : ""
+                }`}
+                onClick={() => setSelectedProvider("vidsrc.cc")}
+                disabled={!imdbId}
+              >
+                vidsrc.cc
+              </button>
+              <button
+                className={`button ${
+                  selectedProvider === "vidlink.pro" ? "is-primary" : ""
+                }`}
+                onClick={() => setSelectedProvider("vidlink.pro")}
+              >
+                Vidlink.pro
+              </button>
+            </div>
+
+            {renderIframe()}
           </div>
         </div>
       </div>
