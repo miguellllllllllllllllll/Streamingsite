@@ -19,6 +19,7 @@ import ReportForm from "./Pages/Report";
 import CategoriesPage from "./Pages/Categoriespage";
 import GenrePage from "./Pages/GenrePage";
 import LoginPage from "./Pages/Loginpage";
+import AnimeDetail from "./Pages/Animedetail";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(
@@ -68,6 +69,11 @@ function App() {
               element={<SeriesDetail />}
             />
             <Route path="/report" element={<ReportForm />} />
+            <Route
+              path="/anime/:id/episode/:episode/:type"
+              element={<AnimeDetail />}
+            />
+
             <Route path="/category" element={<CategoriesPage />} />
             <Route path="/category/:type/genre/:id" element={<GenrePage />} />
           </>
