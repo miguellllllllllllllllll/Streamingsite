@@ -38,7 +38,10 @@ function App() {
 
   return (
     <BrowserRouter>
-      {isAuthenticated && <Navbar onLogout={handleLogout} />}
+      {isAuthenticated && (
+  <Navbar isAuthenticated={isAuthenticated} onLogout={handleLogout} />
+)}
+
       <Routes>
         <Route
           path="/login"

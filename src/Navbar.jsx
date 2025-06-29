@@ -1,12 +1,18 @@
 import { useState } from "react";
 import { CiStreamOn } from "react-icons/ci";
-import { Link } from "react-router-dom"; // WICHTIG: Link importieren!
+import { Link, useNavigate } from "react-router-dom";
 
-function Navbar() {
+function Navbar({ isAuthenticated, onLogout }) {
   const [isActive, setIsActive] = useState(false);
+  const navigate = useNavigate();
 
   const handleBurgerClick = () => {
     setIsActive(!isActive);
+  };
+
+  const handleLogoutClick = () => {
+    onLogout();
+    navigate("/login");
   };
 
   return (
@@ -37,12 +43,33 @@ function Navbar() {
           </Link>
           <Link className="navbar-item" to="/movie/550">
             Beispiel-Film
-          </Link>{" "}
-          {/* Beispiel-Film (Fight Club) */}
+          </Link>
           <Link className="navbar-item" to="/report">
             Report an issue
-          </Link>{" "}
-          {/* Beispiel-Serie (Game of Thrones) */}
+          </Link>
+        </div>
+
+        <div className="navbar-end">
+          <div className="navbar-item">
+            {isAuthenticated ? (
+              <div className="buttons">
+                <span className="navbar-item">
+                  <img
+                    src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y"
+                    alt="Profile"
+                    style={{ borderRadius: "50%", width: "30px", height: "30px" }}
+                  />
+                </span>
+                <button className="button is-light" onClick={handleLogoutClick}>
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <Link className="button is-primary" to="/login">
+                Login
+              </Link>
+            )}
+          </div>
         </div>
       </div>
     </nav>
